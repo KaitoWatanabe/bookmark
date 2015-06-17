@@ -86,11 +86,7 @@ end
 
 post '/favorite' do
   item = Item.find(params[:id])
-  if item.favorite
-    item.update(favorite: false)
-  else
-    item.update(favorite: true)
-  end
+  item.update(favorite: !item.favorite)
   json favorite: item.favorite
 end
 
