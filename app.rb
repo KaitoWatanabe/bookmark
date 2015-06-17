@@ -9,11 +9,11 @@ require 'open-uri'
 use Rack::Session::Cookie
 
 def get_description html
-  description = html.css('meta[property="og:description"]')[0]
+  description = html.at_css('meta[property="og:description"]')
   if description
     return description.attr('content')
   else
-    description = html.css('meta[name="description"]')[0]
+    description = html.at_css('meta[name="description"]')
     if description
       description.text
     else
@@ -23,7 +23,7 @@ def get_description html
 end
 
 def get_image html
-  image = html.css('meta[property="og:image"]')[0]
+  image = html.at_css('meta[property="og:image"]')
   if image
     image.attr('content')
   else
@@ -59,7 +59,7 @@ end
 
 post '/create' do
   html = Nokogiri::HTML(open(params[:url]))
-  title = html.css('title')[0].text
+  title = html.at_css('title').text
   description = get_description html
   image = get_image html
   Item.create(url: params[:url], title: title, description: description, image: image, user_id: params[:user_id])
