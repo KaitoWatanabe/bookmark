@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookmark</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/jquery-ui.min.css">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/assets/js/jquery-1.11.1.min.js"></script>
+  <script src="/assets/js/jquery-ui-autocomplete.min.js"></script>
+</head>
+<body>
+  <header>
+  <nav class="container">
+    <ul>
+      <li><a href="/">アイテム一覧</a></li>
+      <li>
+        <a href="/favorites">お気に入り</a>
+      </li>
+      <li id="item-form">
+        <form action="/create" method="post">
+          <label for="url">アイテムを保存</label>
+          <input type="hidden" name="user_id" value="<%= @user.id %>">
+          <input type="text" name="url" id="url" placeholder="http://">
+          <input type="submit" value="保存">
+        </form>
+      </li>
+    </ul>
+
+
+
+  </nav>
+</header>
+  <div class="container">
+  <ul id="items" class="row">
+    <% @items.each do |item|%>
+    <li class="item col-md-4" data-id="<%= item.id %>">
+      <div class="item-container">
+        <ul>
+          <li class="image"><img src="<%= item.image %>" alt=""></li>
+          <li class="url"><a href="<%= item.url %>"><%= item.title %></a></li>
+          <li class="description"><%= item.description %></li>
+        </ul>
+        <% if item.favorite %>
+          <div class="favorite active fa fa-star"></div>
+        <% else %>
+          <div class="favorite fa fa-star"></div>
+        <% end %>
+        <form action="/delete" class="delete" method="post">
+          <input type="hidden" name="id" value="<%= item.id %>">
+          <button class="fa fa-trash-o"></button>
+        </form>
+        <div class="tag">
+          <i class="fa fa-tag add_tag"></i>
+          <form action="/tag/create" method="post" class="tag_form">
+            <input type="hidden" name="id" value="<%= item.id %>">
+            <input type="text" name="tag" class="input_tag">
+            <input type="submit" value="保存">
+          </form>
+          <% if item.tag %>
+            <a class="tag_name" href="/tag/<%= item.tag.id %>"><%= item.tag.name %></a>
+          <% end %>
+        </div>
+      </div>
+
+    </li>
+    <% end %>
+  </ul>
+</div>
+<script>
+  $(function(){
+    $('.favorite').click(function(){
+      var id = $(this).parent().parent('.item').data('id')
+      var self = $(this)
+      $.ajax({
+        url: '/favorite',
+        type: 'POST',
+        data: {
+          id: id,
+        },
+        dataType: 'json'
+      })
+      .done(function( data, textStatus, jqXHR ) {
+        if(data.favorite){
+          self.addClass('active')
+        }
+        else{
+          self.removeClass('active')
+        }
+
+      })
+      .fail(function( jqXHR, textStatus, errorThrown) {
+        alert('エラーが発生しました')
+      })
+      .always(function( jqXHR, textStatus) {
+
+      });
+    });
+    $('.add_tag').click(function(){
+      $(this).next('form').fadeIn(400)
+      $(this).parent().children('.tag_name').fadeOut(0)
+    })
+    $(".input_tag").autocomplete({
+      source: '/tag/list'
+    });
+  })
+</script>
+</body>
+</html>

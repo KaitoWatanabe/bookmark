@@ -1,0 +1,109 @@
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import 'variables.scss';
+
+ul{
+  padding: 0;
+}
+
+body{
+  font-family: Quicksand, '游ゴシック体', 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+  background: #f9f9f9;
+}
+
+li{
+  list-style-type: none;
+}
+a{
+  color: #777;
+}
+
+header{
+  background: #fff;
+  color: $main-color;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba($main-color, .25);
+  margin-bottom: 30px;
+  li{
+    display: inline-block;
+    margin-right: 16px;
+    margin-top: 8px;
+  }
+  label{
+      font-size: 16px;
+      margin-right: 16px;
+  }
+  input[type="text"]{
+    width: 200px;
+    color: #333;
+  }
+
+  input[type="submit"]{
+    border: 0;
+    background: $main-color;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px;
+  }
+}
+
+#item-form{
+  float: right;
+  margin-top: 0;
+}
+
+.item{
+  margin-bottom: 32px;
+  .item-container{
+    padding: 24px;
+    box-shadow: 0 0 1px 0 $main-color;
+    background: #fff;
+  }
+  img{
+    width: 100%;
+  }
+  .url{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px 0;
+    a{
+      color: #333;
+    }
+  }
+  .description{
+    color: #777;
+  }
+  .favorite{
+    cursor: pointer;
+    color: #ccc;
+    font-size: 24px;
+  }
+  .favorite.active{
+    color: #FFC107;
+  }
+  .delete{
+    display: inline;
+  }
+  button{
+    color: #ccc;
+    font-size: 24px;
+    border: 0;
+    background: none;
+  }
+}
+
+.tag{
+  float: right;
+  i{
+    color: #ccc;
+    font-size: 24px;
+  }
+  form{
+    display: none;
+    float: right;
+  }
+  .tag_name{
+    color: $main-color;
+    font-weight: bold;
+  }
+}
